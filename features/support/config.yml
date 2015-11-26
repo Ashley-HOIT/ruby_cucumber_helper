@@ -1,0 +1,6 @@
+#config files are used to define environmental variables
+# these are constants and should be used when data values are fixed
+
+
+host: https://www.
+proxy_host: localhost
