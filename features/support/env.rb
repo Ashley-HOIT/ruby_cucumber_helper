@@ -12,11 +12,11 @@ require 'csv'
 require 'json'
 require 'webrick'
 require 'webrick/httpproxy'
+require 'appium_capybara'
 
 
 require_all 'features/lib/gov_uk/classes'
 require_all 'features/lib/env/classes'
-
 
 
 # loads the config file. The default config file is config.yml.
@@ -88,11 +88,36 @@ elsif ENV['BROWSER']=='chrome'
 
   end
 
+elsif ENV['BROWSER'] == 'appium'
+  capabilities = {
+
+      :deviceName => 'iPhone Simulator',
+      :browserName => 'iOS',
+      :platformVersion => '9.2',
+      :platformName => 'iOS',
+      :app => 'safari'
+  }
+      url = "http://127.0.0.1:4723/wd/hub"
+
+
+  Capybara.register_driver(:appium) do |app|
+    appium_lib_options = {
+        server_url: url
+    }
+    all_options = {
+        appium_lib: appium_lib_options,
+        caps: capabilities
+    }
+    Appium::Capybara::Driver.new app, all_options
+  end
+
+  Capybara.default_driver = :appium
+
 else
   # DEFAULT: headless tests with poltergeist/phantomjs
   Capybara.default_driver = :poltergeist
   Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, :phantomjs_options => ["--proxy='#{proxy}'","--ignore-ssl-errors=true","--load-images=false"])
+    Capybara::Poltergeist::Driver.new(app, :phantomjs_options => ["--proxy='#{proxy}'", "--ignore-ssl-errors=true", "--load-images=false"])
   end
   Capybara.javascript_driver = :poltergeist
 end
