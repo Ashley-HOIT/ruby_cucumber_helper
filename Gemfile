@@ -29,4 +29,6 @@ group :test do
   gem 'activesupport', '4.2.4'
   #   proxy server
   gem 'webrick', '1.3.1'
+  # Appium Capybara support
+  gem 'appium_capybara', '1.2.1'
 end
