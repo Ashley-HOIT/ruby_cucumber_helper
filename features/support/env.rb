@@ -12,7 +12,7 @@ require 'csv'
 require 'json'
 require 'webrick'
 require 'webrick/httpproxy'
-require 'appium_capybara'
+# require 'appium_capybara'
 
 
 require_all 'features/lib/gov_uk/classes'
